@@ -23,6 +23,7 @@ namespace UniversalParking.API.Controllers
         private IStatisticsService statisticsService;
         private IParkingService parkingService;
         private IUserService userService;
+        private IBookingService bookingService;
         private IMapper mapper;
 
         public StatisticsController(IStatisticsService statisticsService,
@@ -64,6 +65,7 @@ namespace UniversalParking.API.Controllers
             }
         }
 
+        [HttpGet("{parkingID}")]
         public ActionResult<ParkingStatisticModel> GetFreeParkingPlace(int parkingID)
         {
             try
@@ -91,6 +93,37 @@ namespace UniversalParking.API.Controllers
                     ParkingStatisticModel>(parkingStatisticsDTO);
 
                 return parkingStatistics;
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpGet("booking/{bookingID}")]
+        public ActionResult<BookingStatisticModel> GetFullPriceByBooking(int bookingID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Identity!.Name;
+                if (userID == null)
+                {
+                    return BadRequest("The action is available to authorized users.");
+                }
+
+                var currentBooking = bookingService.GetBooking(bookingID);
+                if (currentBooking == null)
+                {
+                    return NotFound("There is no booking with this bookingID.");
+                }
+
+                var bookingStatisticsDTO =
+                    this.statisticsService.GetFullPriceByBooking(bookingID);
+                var bookingStatistics = mapper.Map<BookingStatisticDTO,
+                    BookingStatisticModel>(bookingStatisticsDTO);
+
+                return bookingStatistics;
             }
             catch (Exception)
             {

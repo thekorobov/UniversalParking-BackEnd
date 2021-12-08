@@ -11,5 +11,6 @@ namespace UniversalParking.BLL.Interfaces
     {
         ParkingStatisticDTO GetFreeParkingPlace(int parkingID);
         IEnumerable<ParkingStatisticDTO> GetParkingTop(int userID);
+        BookingStatisticDTO GetFullPriceByBooking(int bookingID);
     }
 }

@@ -72,5 +72,38 @@ namespace UniversalParking.BLL.Services
 
             return statistics;
         }
+
+        public BookingStatisticDTO GetFullPriceByBooking(int bookingID)
+        {
+            var booking = database.Bookings.Get(bookingID);
+            var parkingPlace = database.ParkingPlaces.GetAll()
+                    .Where(b => b.ParkingPlaceID == booking.ParkingPlaceID)
+                    .FirstOrDefault();
+            var parkingName = database.Parkings.Get(parkingPlace.ParkingID).Name;
+
+            var price = (booking.EndBooking.Date - booking.StartBooking.Date).TotalDays * parkingPlace.Price;
+            var penalty = 0.0;
+            if (DateTime.Today.Date > booking.EndBooking.Date)
+            {
+                var countDay = (DateTime.Today.Date - booking.EndBooking.Date).TotalDays;
+                var coef =(0.05 * countDay) + 1;
+
+                penalty = (price * coef) - price;
+            }
+
+            BookingStatisticDTO statictic = new BookingStatisticDTO()
+            {
+                BookingID = bookingID,
+                ParkingName = parkingName,
+                ParkingPlaceName = parkingPlace.Name,
+                Price = price,
+                Penalty = penalty
+            };
+
+
+            return statictic;
+        }
+
+       
     }
 }

@@ -115,6 +115,7 @@ namespace UniversalParking.API.Controllers
                 }
                 var user = mapper.Map<UserModel, User>(userModel);
                 user.UserName = userModel.Name;
+                user.PhoneNumber = userModel.PhoneNumber;
                 var managerResult = await userManager.CreateAsync(user,
                     userModel.Password);
 

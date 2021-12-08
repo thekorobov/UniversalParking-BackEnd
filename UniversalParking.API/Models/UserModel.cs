@@ -11,7 +11,7 @@ namespace UniversalParking.API.Models
         public int UserID { set; get; }
         public string Name { set; get; }
         public string Email { set; get; }
-        public string Phone { set; get; }
+        public string PhoneNumber { set; get; }
         public string Password { set; get; }
         public string Role { set; get; }
     }
