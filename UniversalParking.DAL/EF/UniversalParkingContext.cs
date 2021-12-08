@@ -19,7 +19,7 @@ namespace UniversalParking.DAL.EF
         internal DbSet<Booking> bookings { get; set; }
 
         public UniversalParkingContext(DbContextOptions<UniversalParkingContext> options) : base(options)
-        {
+        {           
             Database.EnsureCreated();
         }
 
@@ -27,9 +27,10 @@ namespace UniversalParking.DAL.EF
         {
             base.OnModelCreating(builder);
 
+            
             builder.Entity<User>()
                  .Property(user => user.UserID)
-                 .ValueGeneratedOnAdd();
+                 .ValueGeneratedNever();
 
             builder.Entity<Car>()
                 .Property(car => car.CarID)
@@ -46,6 +47,11 @@ namespace UniversalParking.DAL.EF
             builder.Entity<Booking>()
                 .Property(booking => booking.BookingID)
                 .ValueGeneratedOnAdd();
+
+            //builder.Entity<Booking>()
+            //    .HasOne(b => b.Driver)
+            //    .WithMany(b => b.UserID)
+            //    .OnDelete(DeleteBehavior.Cascade);
         }
 
     }

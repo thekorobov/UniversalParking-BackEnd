@@ -15,7 +15,7 @@ namespace UniversalParking.DAL.Entities
         public int ParkingPlaceID { set; get; }
         public int ParkingID;
         public string Name { set; get; }
-        public decimal Price { set; get; }
+        public double Price { set; get; }
         public bool State { set; get; }
 
         [ForeignKey("ParkingID")]

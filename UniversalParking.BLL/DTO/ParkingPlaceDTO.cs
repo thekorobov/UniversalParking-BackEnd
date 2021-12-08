@@ -11,7 +11,7 @@ namespace UniversalParking.BLL.DTO
         public int ParkingPlaceID { set; get; }
         public int ParkingID { set; get; }
         public string Name { set; get; }
-        public decimal Price { set; get; }
+        public double Price { set; get; }
         public bool State { set; get; }
 
         public ParkingDTO Parking { set; get; }

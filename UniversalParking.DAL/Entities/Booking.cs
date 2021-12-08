@@ -13,8 +13,8 @@ namespace UniversalParking.DAL.Entities
     {
         [Key]
         public int BookingID { set; get; }
-        public int DriverID;
-        public int ParkingPlaceID;
+        public int? DriverID { set; get; }
+        public int? ParkingPlaceID { set; get; }
         public string State { set; get; }
         public DateTime StartBooking { set; get; }
         public DateTime EndBooking { set; get; }
