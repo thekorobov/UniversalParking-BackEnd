@@ -8,7 +8,7 @@ namespace UniversalParking.API.Models
 {
     public class UserModel
     {
-        public int UserID { set; get; }
+        public int Id { set; get; }
         public string Name { set; get; }
         public string Email { set; get; }
         public string PhoneNumber { set; get; }

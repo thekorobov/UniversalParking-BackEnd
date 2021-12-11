@@ -33,7 +33,7 @@ namespace UniversalParking.DAL.Repositories
             database.users.Add(user);
             database.SaveChanges();
 
-            return user.UserID;
+            return user.Id;
         }
 
         public void Delete(int id)
@@ -48,10 +48,10 @@ namespace UniversalParking.DAL.Repositories
         public void Update(User user)
         {
             var toUpdateUser = database.users.FirstOrDefault(
-                user => user.UserID == user.UserID);
+                user => user.Id == user.Id);
             if (toUpdateUser != null)
             {
-                toUpdateUser.UserID = user.UserID;
+                toUpdateUser.Id = user.Id;
                 toUpdateUser.Name = user.Name ?? toUpdateUser.Name;
                 toUpdateUser.Email = user.Email ?? toUpdateUser.Email;
                 toUpdateUser.PasswordHash = user.PasswordHash ?? toUpdateUser.PasswordHash;

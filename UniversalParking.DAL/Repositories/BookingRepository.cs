@@ -38,7 +38,7 @@ namespace UniversalParking.DAL.Repositories
         public int Create(Booking booking)
         {
             booking.Driver = database.users
-                .Find(booking.Driver.UserID);
+                .Find(booking.Driver.Id);
             booking.ParkingPlace = database.parkingPlaces
                 .Find(booking.ParkingPlace.ParkingPlaceID);
             database.bookings.Add(booking);
@@ -59,12 +59,12 @@ namespace UniversalParking.DAL.Repositories
         public void Update(Booking booking)
         {
             var toUpdateBooking = database.bookings.FirstOrDefault(
-                b => b.BookingID == b.BookingID);
+                b => b.BookingID == booking.BookingID);
             if(toUpdateBooking != null)
             {
                 toUpdateBooking.BookingID = booking.BookingID;
                 toUpdateBooking.Driver = database.users
-                    .Find(booking.Driver.UserID);
+                    .Find(booking.Driver.Id);
                 toUpdateBooking.ParkingPlace = database.parkingPlaces
                     .Find(booking.ParkingPlace.ParkingPlaceID);
                 toUpdateBooking.State = booking.State ?? toUpdateBooking.State;

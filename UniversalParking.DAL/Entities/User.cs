@@ -13,7 +13,6 @@ namespace UniversalParking.DAL.Entities
     public class User : IdentityUser<int>
     {
         [Key]
-        public int UserID { set; get; }
         public string Name { set; get; }
         public string Role { set; get; }
     }

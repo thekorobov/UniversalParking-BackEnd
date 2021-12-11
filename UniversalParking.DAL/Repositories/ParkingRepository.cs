@@ -36,7 +36,7 @@ namespace UniversalParking.DAL.Repositories
         public int Create(Parking currentParking)
         {
             currentParking.Owner = database.users
-                .Find(currentParking.Owner.UserID);
+                .Find(currentParking.Owner.Id);
             database.parkings.Add(currentParking);
             database.SaveChanges();
 
@@ -60,7 +60,7 @@ namespace UniversalParking.DAL.Repositories
             {
                 toUpdateParking.ParkingID = currentParking.ParkingID;
                 toUpdateParking.Owner = database.users
-                    .Find(currentParking.Owner.UserID);
+                    .Find(currentParking.Owner.Id);
                 toUpdateParking.Name = currentParking.Name ?? toUpdateParking.Name;
                 toUpdateParking.Address = currentParking.Address ?? toUpdateParking.Address;
                 toUpdateParking.NumberSlots = currentParking.NumberSlots ?? toUpdateParking.NumberSlots;

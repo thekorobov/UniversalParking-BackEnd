@@ -34,7 +34,7 @@ namespace UniversalParking.DAL.Repositories
         public int Create(Car car)
         {
             car.Driver = database.users
-                .Find(car.Driver.UserID);
+                .Find(car.Driver.Id);
             database.cars.Add(car);
             database.SaveChanges();
 
@@ -58,7 +58,7 @@ namespace UniversalParking.DAL.Repositories
             {
                 toUpdateCar.CarID = car.CarID;
                 toUpdateCar.Driver = database.users
-                    .Find(car.Driver.UserID);
+                    .Find(car.Driver.Id);
                 toUpdateCar.Model = car.Model ?? toUpdateCar.Model;
                 toUpdateCar.Brand = car.Brand ?? toUpdateCar.Brand;
                 toUpdateCar.CarNumber = car.CarNumber ?? toUpdateCar.CarNumber;
