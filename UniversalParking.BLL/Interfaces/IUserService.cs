@@ -13,6 +13,6 @@ namespace UniversalParking.BLL.Interfaces
         IEnumerable<UserDTO> GetUsersOfOneRole(string role);
         UserDTO GetUser(int id);
         void DeleteUser(int id);
-        void UpdateUser(UserDTO visitorDTO);
+        void UpdateUser(UserDTO userDTO);
     }
 }

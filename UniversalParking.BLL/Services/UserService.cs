@@ -43,7 +43,7 @@ namespace UniversalParking.BLL.Services
         public IEnumerable<UserDTO> GetAllUsers()
         {
             var users = database.Users.GetAll()
-                .OrderBy(user => user.UserID);
+                .OrderBy(user => user.Id);
             var usersDTO = mapper.Map<IEnumerable<User>,
                 List<UserDTO>>(users);
 
@@ -54,7 +54,7 @@ namespace UniversalParking.BLL.Services
         {
             var users = database.Users.GetAll();
             users = users.Where(user => user.Role == role)
-                .OrderBy(user => user.UserID)
+                .OrderBy(user => user.Id)
                 .ToList();
             var usersDTO = mapper.Map<IEnumerable<User>,
                 List<UserDTO>>(users);
@@ -77,14 +77,14 @@ namespace UniversalParking.BLL.Services
         public void UpdateUser(UserDTO userDTO)
         {
             var user = database.Users
-                .Get(userDTO.UserID);
+                .Get(userDTO.Id);
             if (user == null)
             {
                 throw new NullReferenceException();
             }
             var userExsist = database.Users.GetAll()
                 .Any(u => u.Email == userDTO.Email && 
-                u.UserID == userDTO.UserID);
+                u.Id == userDTO.Id);
 
             if (userExsist)
             {

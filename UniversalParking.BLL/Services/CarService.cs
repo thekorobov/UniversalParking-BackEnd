@@ -61,7 +61,7 @@ namespace UniversalParking.BLL.Services
             }
             var carExsist = database.Cars.GetAll()
                 .Any(c => c.Model == carDTO.Model &&
-                          c.Driver.UserID == carDTO.Driver.UserID);
+                          c.Driver.Id == carDTO.Driver.Id);
 
             var currentCar = mapper.Map<CarDTO, Car>(carDTO);
             var currentCarID = database.Cars.Create(currentCar);
@@ -88,7 +88,7 @@ namespace UniversalParking.BLL.Services
             }
             var carExsist = database.Cars.GetAll()
                 .Any(c => c.Model == carDTO.Model &&
-                          c.Driver.UserID == carDTO.Driver.UserID);
+                          c.Driver.Id == carDTO.Driver.Id);
             
             currentCar = mapper.Map<CarDTO, Car>(carDTO);
             database.Cars.Update(currentCar);

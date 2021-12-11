@@ -37,8 +37,9 @@ namespace UniversalParking.API.Controllers
             mapper = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<UserModel, User>().ReverseMap();
+                    cfg.CreateMap<UserModel, UserDTO>().ReverseMap();
                     cfg.CreateMap<UserDTO, UserModel>().ReverseMap();
+                    cfg.CreateMap<UserModel, User>().ReverseMap();
                 })
                 .CreateMapper();
         }
@@ -68,7 +69,7 @@ namespace UniversalParking.API.Controllers
             }
         }
 
-        // POST api/<AdministratorController>
+        // POST api/<AccountController>
         [Route("signIn")]
         [HttpPost]
         public async Task<ActionResult<UserModel>> SignIn(UserModel userModel)
@@ -116,8 +117,10 @@ namespace UniversalParking.API.Controllers
                 var user = mapper.Map<UserModel, User>(userModel);
                 user.UserName = userModel.Name;
                 user.PhoneNumber = userModel.PhoneNumber;
+
                 var managerResult = await userManager.CreateAsync(user,
                     userModel.Password);
+                
 
                 var userRoles = from role in roleManager.Roles.ToList()
                                 where role.Name == userModel.Role

@@ -16,7 +16,7 @@ using AutoMapper;
 namespace UniversalParking.API.Controllers
 {
     [Authorize(Roles = "Administrator,Owner")]
-    [Route("api/event")]
+    [Route("api/parking")]
     [ApiController]
     public class ParkingController : ControllerBase
     {

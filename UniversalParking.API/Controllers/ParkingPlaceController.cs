@@ -16,7 +16,7 @@ using AutoMapper;
 namespace UniversalParking.API.Controllers
 {
     [Authorize(Roles = "Administrator,Owner")]
-    [Route("api/location")]
+    [Route("api/parkingPlace")]
     [ApiController]
     public class ParkingPlaceController : ControllerBase
     {
@@ -61,7 +61,7 @@ namespace UniversalParking.API.Controllers
         }
 
         // GET api/<ParkingPlaceController>/5
-        [HttpGet("event/{eventID}")]
+        [HttpGet("parking/{parkingID}")]
         public ActionResult<IEnumerable<ParkingPlaceDTO>> GetParkingPlaceByParking(int parkingID)
         {
             try
@@ -156,7 +156,7 @@ namespace UniversalParking.API.Controllers
                 }
 
                 var parkingPlaceDTO = mapper.Map<ParkingPlaceModel, ParkingPlaceDTO>(model);
-                parkingPlaceDTO.ParkingID = id;
+                parkingPlaceDTO.ParkingPlaceID = id;
                 parkingPlaceDTO.Parking = currentParking;
                 parkingPlaceService.UpdateParkingPlace(parkingPlaceDTO);
                 return Ok("Parking place updated successfully.");

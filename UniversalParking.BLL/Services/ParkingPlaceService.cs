@@ -25,8 +25,10 @@ namespace UniversalParking.BLL.Services
                 {
                     cfg.CreateMap<ParkingPlace, ParkingPlaceDTO>().ReverseMap();
                     cfg.CreateMap<Parking, ParkingDTO>().ReverseMap();
+                    cfg.CreateMap<User, UserDTO>().ReverseMap();
                     cfg.CreateMap<ParkingPlaceDTO, ParkingPlace>().ReverseMap();
                     cfg.CreateMap<ParkingDTO, Parking>().ReverseMap();
+                    cfg.CreateMap<UserDTO, User>().ReverseMap();
                 }
                 ).CreateMapper();
         }
@@ -103,7 +105,8 @@ namespace UniversalParking.BLL.Services
                 throw new NullReferenceException();
             }
             var parkingPlaceExsist = database.ParkingPlaces.GetAll()
-                .Any(pl => pl.Name == parkingPlaceDTO.Name &&
+                .Any(pl => pl.ParkingPlaceID != parkingPlaceDTO.ParkingPlaceID && 
+                           pl.Name == parkingPlaceDTO.Name &&
                            pl.Parking.ParkingID == parkingPlaceDTO.Parking.ParkingID);
             if (parkingPlaceExsist)
             {

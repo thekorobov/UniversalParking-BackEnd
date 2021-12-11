@@ -63,7 +63,7 @@ namespace UniversalParking.BLL.Services
             }
             var parkingExsist = database.Parkings.GetAll()
                 .Any(p => p.Name == parkingDTO.Name &&
-                          p.Owner.UserID == parkingDTO.Owner.UserID);
+                          p.Owner.Id == parkingDTO.Owner.Id);
             if (parkingExsist)
             {
                 throw new ArgumentException("An parking with this name already exists.");
@@ -94,8 +94,9 @@ namespace UniversalParking.BLL.Services
                 throw new NullReferenceException();
             }
             var parkingExsist = database.Parkings.GetAll()
-                .Any(p => p.Name == parkingDTO.Name &&
-                          p.Owner.UserID == parkingDTO.Owner.UserID);
+                .Any(p => p.ParkingID != parkingDTO.ParkingID &&
+                          p.Name == parkingDTO.Name &&
+                          p.Owner.Id == parkingDTO.Owner.Id);
             if (parkingExsist)
             {
                 throw new NullReferenceException("An parking with this name already exists");
