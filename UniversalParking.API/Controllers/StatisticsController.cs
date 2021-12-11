@@ -15,7 +15,7 @@ using AutoMapper;
 
 namespace UniversalParking.API.Controllers
 {
-    [Authorize(Roles = "Administrator,BusinessPartner")]
+    [Authorize(Roles = "Administrator,Owner")]
     [Route("api/statistics")]
     [ApiController]
     public class StatisticsController : ControllerBase
@@ -23,21 +23,23 @@ namespace UniversalParking.API.Controllers
         private IStatisticsService statisticsService;
         private IParkingService parkingService;
         private IUserService userService;
-        private IBookingService bookingService;
+        private readonly IBookingService bookingService;
         private IMapper mapper;
 
         public StatisticsController(IStatisticsService statisticsService,
-            IParkingService parkingService, IUserService userService)
+            IParkingService parkingService, IUserService userService,
+            IBookingService bookingService)
         {
             this.statisticsService = statisticsService;
             this.parkingService = parkingService;
             this.userService = userService;
+            this.bookingService = bookingService;
 
             mapper = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<ParkingStatisticDTO,
-                        ParkingStatisticModel>().ReverseMap();
+                    cfg.CreateMap<ParkingStatisticDTO, ParkingStatisticModel>().ReverseMap();
+                    cfg.CreateMap<BookingStatisticDTO, BookingStatisticModel>().ReverseMap();
                 }
                 ).CreateMapper();
         }
@@ -82,9 +84,9 @@ namespace UniversalParking.API.Controllers
                     return NotFound("There is no parking with this parkingID.");
                 }
 
-                if (currentParking.Owner.UserID != Convert.ToInt32(userID))
+                if (currentParking.Owner.Id != Convert.ToInt32(userID))
                 {
-                    return BadRequest("You cannot view the statistics of other people's events.");
+                    return BadRequest("You cannot view the statistics");
                 }
 
                 var parkingStatisticsDTO =

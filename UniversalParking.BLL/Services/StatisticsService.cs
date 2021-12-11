@@ -23,7 +23,7 @@ namespace UniversalParking.BLL.Services
         {
             var freePlaces = database.ParkingPlaces.GetAll()
                 .Where(place => place.ParkingID == parkingID &&
-                                place.State == false).Count();
+                                place.State == true).Count();
 
             var parking = database.Parkings.Get(parkingID);
             ParkingStatisticDTO parkingStatisticDTO = new ParkingStatisticDTO()
