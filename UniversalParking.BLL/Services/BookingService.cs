@@ -26,9 +26,11 @@ namespace UniversalParking.BLL.Services
                     cfg.CreateMap<Booking, BookingDTO>().ReverseMap();
                     cfg.CreateMap<User, UserDTO>().ReverseMap();
                     cfg.CreateMap<ParkingPlace, ParkingPlaceDTO>().ReverseMap();
+                    cfg.CreateMap<Parking, ParkingDTO>().ReverseMap();
                     cfg.CreateMap<BookingDTO, Booking>().ReverseMap();
                     cfg.CreateMap<UserDTO, User>().ReverseMap();
                     cfg.CreateMap<ParkingPlaceDTO, ParkingPlace>().ReverseMap();
+                    cfg.CreateMap<ParkingDTO, Parking>().ReverseMap();
                 }
                 ).CreateMapper();
         }
@@ -64,14 +66,18 @@ namespace UniversalParking.BLL.Services
             var bookingExsist = database.Bookings.GetAll()
                 .Any(b =>
                      b.ParkingPlace.ParkingPlaceID == bookingDTO.ParkingPlace.ParkingPlaceID &&
-                     b.Driver.UserID == bookingDTO.Driver.UserID);
+                     b.Driver.Id == bookingDTO.Driver.Id);
             if (bookingExsist)
             {
                 throw new ArgumentException();
             }
-
             var booking = mapper.Map<BookingDTO, Booking>(bookingDTO);
-            var bookingID = database.Bookings.Create(booking);
+          
+
+            var parkingPlace = database.ParkingPlaces.Get(bookingDTO.ParkingPlace.ParkingPlaceID);
+            parkingPlace.State = false;
+            database.ParkingPlaces.Update(parkingPlace);
+           var bookingID = database.Bookings.Create(booking);
             return bookingID;
         }
 
@@ -82,6 +88,7 @@ namespace UniversalParking.BLL.Services
             {
                 throw new NullReferenceException();
             }
+
             database.Bookings.Delete(id);
             database.Save();
         }
@@ -93,6 +100,10 @@ namespace UniversalParking.BLL.Services
             {
                 throw new NullReferenceException();
             }
+
+            var parkingPlace = database.ParkingPlaces.Get(booking.ParkingPlace.ParkingPlaceID);
+            parkingPlace.State = true;
+            database.ParkingPlaces.Update(parkingPlace);
 
             booking = mapper.Map<BookingDTO, Booking>(bookingDTO);
             database.Bookings.Update(booking);

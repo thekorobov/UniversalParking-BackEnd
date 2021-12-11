@@ -21,21 +21,28 @@ namespace UniversalParking.API.Controllers
     {
         private IBookingService bookingService;
         private IUserService userService;
+        private IParkingPlaceService parkingPlaceService;
         private IMapper mapper;
 
         public BookingController(IBookingService bookingService,
-            IUserService userService)
+            IUserService userService, IParkingPlaceService parkingPlaceService)
         {
             this.bookingService = bookingService;
             this.userService = userService;
+            this.parkingPlaceService = parkingPlaceService;
 
             mapper = new MapperConfiguration(
                 cfg =>
                 {
                     cfg.CreateMap<BookingModel, BookingDTO>().ReverseMap();
                     cfg.CreateMap<UserModel, UserDTO>().ReverseMap();
+                    cfg.CreateMap<ParkingPlaceModel, ParkingPlaceDTO>().ReverseMap();
+                    cfg.CreateMap<ParkingModel, ParkingDTO>().ReverseMap();
                     cfg.CreateMap<UserDTO, UserModel>().ReverseMap();
                     cfg.CreateMap<BookingDTO, BookingModel>().ReverseMap();
+                    cfg.CreateMap<ParkingPlaceDTO, ParkingPlaceModel>().ReverseMap();
+                    cfg.CreateMap<ParkingDTO, ParkingModel>().ReverseMap();
+
                 })
                 .CreateMapper();
         }
@@ -98,6 +105,8 @@ namespace UniversalParking.API.Controllers
                 var bookingDTO = mapper.Map<BookingModel, BookingDTO>(model);
                 var user = userService.GetUser(Convert.ToInt32(userID));
                 bookingDTO.Driver = user;
+                var parkingPlace = parkingPlaceService.GetParkingPlace(model.ParkingPlaceID);
+                bookingDTO.ParkingPlace = parkingPlace;
                 bookingService.AddBooking(bookingDTO);
                 return Ok("Booking added successfully.");
             }
@@ -137,9 +146,16 @@ namespace UniversalParking.API.Controllers
                     return BadRequest("The action is available to authorized users.");
                 }
 
+                var parkingPlace = parkingPlaceService.GetParkingPlace(model.ParkingPlaceID);
+                if (parkingPlace == null)
+                {
+                    return NotFound("There is no parking place with this parkingPlaceID.");
+                }
+
                 model.BookingID = id;
                 var bookingDTO = mapper.Map<BookingModel, BookingDTO>(model);
                 var user = userService.GetUser(Convert.ToInt32(modelID));
+                bookingDTO.ParkingPlace = parkingPlace;
                 bookingDTO.Driver = user;
                 bookingService.UpdateBooking(bookingDTO);
                 return Ok("Booking updated successfully.");
