@@ -53,10 +53,9 @@ namespace UniversalParking.DAL.Repositories
         public void Update(Car car)
         {
             var toUpdateCar = database.cars.FirstOrDefault(
-                c => c.CarID == c.CarID);
+                c => c.CarID == car.CarID);
             if(toUpdateCar != null)
             {
-                toUpdateCar.CarID = car.CarID;
                 toUpdateCar.Driver = database.users
                     .Find(car.Driver.Id);
                 toUpdateCar.Model = car.Model ?? toUpdateCar.Model;

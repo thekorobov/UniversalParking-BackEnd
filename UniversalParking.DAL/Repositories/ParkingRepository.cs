@@ -58,7 +58,6 @@ namespace UniversalParking.DAL.Repositories
                 p => p.ParkingID == currentParking.ParkingID);
             if(toUpdateParking != null)
             {
-                toUpdateParking.ParkingID = currentParking.ParkingID;
                 toUpdateParking.Owner = database.users
                     .Find(currentParking.Owner.Id);
                 toUpdateParking.Name = currentParking.Name ?? toUpdateParking.Name;

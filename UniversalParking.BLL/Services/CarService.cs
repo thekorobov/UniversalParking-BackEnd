@@ -87,8 +87,7 @@ namespace UniversalParking.BLL.Services
                 throw new NullReferenceException();
             }
             var carExsist = database.Cars.GetAll()
-                .Any(c => c.Model == carDTO.Model &&
-                          c.Driver.Id == carDTO.Driver.Id);
+                .Any(c => c.Driver.Id == carDTO.Driver.Id);
             
             currentCar = mapper.Map<CarDTO, Car>(carDTO);
             database.Cars.Update(currentCar);
